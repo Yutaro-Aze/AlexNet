@@ -9,10 +9,18 @@ class AlexNet(nn.Module):
             nn.Conv2d(3, 96, kernel_size=11, stride=4, padding=2),
             nn.ReLU(),
             nn.LocalResponseNorm(size=5, alpha=0.0001, beta=0.75, k=2),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+        )
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(96, 256, kernel_size=5, padding=2),
+            nn.ReLU(),
+            nn.LocalResponseNorm(size=5, alpha=0.0001, beta=0.75, k=2),
+            nn.MaxPool2d(kernel_size=3, stride=2),
         )
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.conv1(x)
+        x = self.conv2(x)
         return x
 
 
